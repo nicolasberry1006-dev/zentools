@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulateur salaire net brut</title>
-<meta name="description" content="Calculez votre salaire net mensuel, annuel et horaire.">
+<title>Simulateur salaire net brut (heure, mois, année)</title>
+<meta name="description" content="Convertissez votre salaire brut en net et entre formats horaire, mensuel et annuel.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -18,21 +18,29 @@ body { background: radial-gradient(circle at top, #111 0%, #000 100%); }
 
 <div class="w-full max-w-md text-center">
 
-<h1 class="text-3xl font-bold mb-6">Salaire Net</h1>
+<h1 class="text-3xl font-bold mb-6">Salaire Brut → Net</h1>
 
 <div class="bg-zinc-900/60 p-6 rounded-2xl glow border border-zinc-800">
 
-<select id="mode" class="w-full p-4 mb-3 bg-zinc-800 rounded-xl">
-<option value="month">Mensuel</option>
-<option value="year">Annuel</option>
-<option value="hour">Horaire</option>
+<select id="mode" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
+<option value="hour">Horaire (€ / h)</option>
+<option value="month">Mensuel (€ / mois)</option>
+<option value="year">Annuel (€ / an)</option>
 </select>
 
-<input id="brut" type="number" placeholder="Salaire brut"
-class="w-full p-4 bg-zinc-800 rounded-xl"/>
+<input id="input" type="number" placeholder="Ex: 14"
+class="w-full p-4 bg-zinc-800 rounded-xl text-lg"/>
 
-<p class="mt-6 text-zinc-400">Net estimé</p>
-<p id="result" class="text-3xl font-bold mt-2">0 €</p>
+<div class="mt-6 text-left text-sm space-y-2">
+
+<p>Horaire : <span id="hourly">0 €</span></p>
+<p>Mensuel : <span id="monthly">0 €</span></p>
+<p>Annuel : <span id="yearly">0 €</span></p>
+
+<p class="mt-4 text-zinc-400">Net mensuel estimé :</p>
+<p id="net" class="text-2xl font-bold">0 €</p>
+
+</div>
 
 </div>
 
@@ -41,19 +49,55 @@ class="w-full p-4 bg-zinc-800 rounded-xl"/>
 </div>
 
 <script>
-const brut=document.getElementById("brut");
-const mode=document.getElementById("mode");
-const result=document.getElementById("result");
+const input = document.getElementById("input");
+const mode = document.getElementById("mode");
 
-function calc(){
- let b=parseFloat(brut.value);
- if(!b){result.textContent="0 €";return;}
- let m = mode.value==="year"?b/12:mode.value==="hour"?b*151.67:b;
- result.textContent=(m*0.78).toFixed(0)+" €";
+const hourly = document.getElementById("hourly");
+const monthly = document.getElementById("monthly");
+const yearly = document.getElementById("yearly");
+const net = document.getElementById("net");
+
+const HOURS_MONTH = 151.67;
+const MONTHS_YEAR = 12;
+const NET_RATE = 0.78;
+
+function calc() {
+  let value = parseFloat(input.value);
+
+  if (!value) {
+    hourly.textContent = monthly.textContent = yearly.textContent = net.textContent = "0 €";
+    return;
+  }
+
+  let brutHourly, brutMonthly, brutYearly;
+
+  if (mode.value === "hour") {
+    brutHourly = value;
+    brutMonthly = value * HOURS_MONTH;
+    brutYearly = brutMonthly * MONTHS_YEAR;
+  }
+
+  if (mode.value === "month") {
+    brutMonthly = value;
+    brutHourly = value / HOURS_MONTH;
+    brutYearly = value * MONTHS_YEAR;
+  }
+
+  if (mode.value === "year") {
+    brutYearly = value;
+    brutMonthly = value / MONTHS_YEAR;
+    brutHourly = brutMonthly / HOURS_MONTH;
+  }
+
+  hourly.textContent = brutHourly.toFixed(2) + " €";
+  monthly.textContent = brutMonthly.toFixed(0) + " €";
+  yearly.textContent = brutYearly.toFixed(0) + " €";
+
+  net.textContent = (brutMonthly * NET_RATE).toFixed(0) + " €";
 }
 
-brut.addEventListener("input",calc);
-mode.addEventListener("change",calc);
+input.addEventListener("input", calc);
+mode.addEventListener("change", calc);
 </script>
 
 </body>
