@@ -16,7 +16,7 @@ gtag('config', 'G-1BLNZ7G598');
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Calcul salaire net réel (heure, mois, année)</title>
-<meta name="description" content="Calculez votre salaire net réel à partir du brut. Conversion horaire, mensuelle et annuelle avec analyse complète.">
+<meta name="description" content="Calculez votre salaire net réel à partir du brut. Conversion horaire, mensuelle et annuelle avec analyse et comparaison.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -54,10 +54,10 @@ Découvrez combien vous gagnez vraiment après charges
 <option value="year">Annuel (€ / an)</option>
 </select>
 
-<input id="input" type="number" placeholder="Ex: 2000"
+<input id="input" type="number" placeholder="Ex: 2000 brut"
 class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 
-<!-- TABLEAU COMPLET -->
+<!-- TABLEAU -->
 <table class="w-full text-base border border-zinc-800 rounded-xl overflow-hidden">
 
 <thead class="bg-zinc-800 text-zinc-400">
@@ -79,7 +79,7 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 <tr class="border-t border-zinc-800 bg-zinc-900/40">
 <td class="p-4 font-semibold">Mensuel</td>
 <td class="p-4 text-right font-semibold text-lg" id="mB">0 €</td>
-<td class="p-4 text-right text-green-400 font-bold text-xl" id="mN">0 €</td>
+<td class="p-4 text-right text-green-400 font-bold text-2xl" id="mN">0 €</td>
 </tr>
 
 <tr class="border-t border-zinc-800">
@@ -93,10 +93,10 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 
 </div>
 
-<!-- ANALYSE (SANS DOUBLON) -->
+<!-- ANALYSE -->
 <div class="mt-8 bg-zinc-900/60 p-5 rounded-xl border border-zinc-800 text-left">
 
-<h3 class="text-white font-semibold mb-3">Analyse</h3>
+<h3 class="text-white font-semibold mb-3">Analyse de votre salaire</h3>
 
 <p class="text-zinc-400">💸 Charges salariales :
 <span id="charges" class="text-white font-semibold">0 €</span></p>
@@ -107,9 +107,12 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 <p class="text-zinc-400">📊 Taux de charges :
 <span id="rate" class="text-white font-semibold">0%</span></p>
 
+<p class="text-zinc-400">📈 Comparaison :
+<span id="compare" class="text-white font-semibold">-</span></p>
+
 </div>
 
-<!-- SEO CONTENT COMPLET -->
+<!-- SEO -->
 <div class="mt-12 border-t border-zinc-800 pt-8 text-zinc-400 space-y-5 text-base leading-relaxed">
 
 <h2 class="text-white text-xl font-semibold">Comment calculer son salaire net ?</h2>
@@ -120,8 +123,8 @@ En France, il représente généralement entre 75% et 80% du salaire brut.
 
 <h2 class="text-white text-xl font-semibold">Conversion brut en net</h2>
 <p>
-Ce simulateur permet de convertir rapidement un salaire brut en net en fonction du format choisi : horaire, mensuel ou annuel.
-Il est particulièrement utile pour comparer une offre d’emploi ou estimer ses revenus.
+Ce simulateur permet de convertir rapidement un salaire brut en net selon le format choisi : horaire, mensuel ou annuel.
+Il est utile pour comparer une offre d’emploi ou estimer ses revenus.
 </p>
 
 <h2 class="text-white text-xl font-semibold">Exemple concret</h2>
@@ -158,6 +161,7 @@ const yN=document.getElementById("yN");
 const charges=document.getElementById("charges");
 const perDay=document.getElementById("perDay");
 const rateTxt=document.getElementById("rate");
+const compare=document.getElementById("compare");
 
 const H=151.67;
 const RATE=0.78;
@@ -171,6 +175,7 @@ function calc(){
   hN.textContent=mN.textContent=yN.textContent="0 €";
   charges.textContent=perDay.textContent="0 €";
   rateTxt.textContent="0%";
+  compare.textContent="-";
   return;
  }
 
@@ -195,6 +200,19 @@ function calc(){
  charges.textContent=(mb-netM).toFixed(0)+" €";
  perDay.textContent=(netM/30).toFixed(0)+" €";
  rateTxt.textContent=((1-RATE)*100).toFixed(0)+" %";
+
+ // 🔥 COMPARAISON
+ const SMIC = 1 443;
+
+ if(netM < SMIC){
+  compare.textContent = "En dessous du SMIC";
+ }
+ else if(netM < 2000){
+  compare.textContent = "Proche du salaire médian";
+ }
+ else{
+  compare.textContent = "Au-dessus de la moyenne";
+ }
 }
 
 i.oninput=calc;
