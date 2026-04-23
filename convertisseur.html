@@ -3,16 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convertisseur de devises</title>
+<title>Convertisseur de devises en ligne</title>
+<meta name="description" content="Convertissez facilement les devises (€, $, £, CHF, ¥, CNY).">
+
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body {
-  background: radial-gradient(circle at top, #111 0%, #000 100%);
-}
-.glow {
-  box-shadow: 0 0 40px rgba(255,255,255,0.05);
-}
+body { background: radial-gradient(circle at top, #111 0%, #000 100%); }
+.glow { box-shadow: 0 0 40px rgba(255,255,255,0.05); }
 </style>
 </head>
 
@@ -22,33 +20,39 @@ body {
 
 <h1 class="text-3xl font-bold mb-6">Convertisseur de devises</h1>
 
-<div class="bg-zinc-900/60 backdrop-blur p-6 rounded-2xl glow border border-zinc-800">
+<div class="bg-zinc-900/60 p-6 rounded-2xl glow border border-zinc-800">
 
 <input id="amount" type="number" placeholder="Montant"
-class="w-full p-4 mb-4 bg-zinc-800 rounded-xl text-lg"/>
+class="w-full p-4 mb-3 bg-zinc-800 rounded-xl"/>
 
-<select id="from" class="w-full p-4 mb-3 bg-zinc-800 rounded-xl">
+<select id="from" class="w-full p-3 mb-3 bg-zinc-800 rounded-xl">
 <option value="EUR">Euro (€)</option>
 <option value="USD">Dollar ($)</option>
 <option value="GBP">Livre (£)</option>
 <option value="CHF">Franc suisse</option>
-<option value="JPY">Yen</option>
+<option value="JPY">Yen (¥)</option>
+<option value="CNY">Yuan chinois (¥)</option>
 </select>
 
-<select id="to" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
+<select id="to" class="w-full p-3 bg-zinc-800 rounded-xl">
 <option value="USD">Dollar ($)</option>
 <option value="EUR">Euro (€)</option>
 <option value="GBP">Livre (£)</option>
 <option value="CHF">Franc suisse</option>
-<option value="JPY">Yen</option>
+<option value="JPY">Yen (¥)</option>
+<option value="CNY">Yuan chinois (¥)</option>
 </select>
 
-<div class="text-center mt-6">
-<p class="text-zinc-400">Résultat</p>
+<p class="mt-6 text-zinc-400">Résultat</p>
 <p id="result" class="text-3xl font-bold mt-2">0</p>
-</div>
 
 </div>
+
+<p class="mt-6 text-sm text-zinc-400 text-left">
+Convertissez facilement les principales devises internationales avec cet outil rapide et simple.
+</p>
+
+<a href="/" class="block mt-6 text-zinc-500 hover:text-white">← Retour</a>
 
 </div>
 
@@ -58,7 +62,8 @@ const rates = {
   USD: 1.08,
   GBP: 0.86,
   CHF: 0.95,
-  JPY: 170
+  JPY: 170,
+  CNY: 7.8
 };
 
 const amount = document.getElementById("amount");
@@ -66,24 +71,20 @@ const from = document.getElementById("from");
 const to = document.getElementById("to");
 const result = document.getElementById("result");
 
-function convert() {
-  const value = parseFloat(amount.value);
-  if (!value) {
+function calc() {
+  let v = parseFloat(amount.value);
+  if (!v) {
     result.textContent = "0";
     return;
   }
 
-  const fromRate = rates[from.value];
-  const toRate = rates[to.value];
-
-  const converted = (value / fromRate) * toRate;
-
+  let converted = (v / rates[from.value]) * rates[to.value];
   result.textContent = converted.toFixed(2);
 }
 
-amount.addEventListener("input", convert);
-from.addEventListener("change", convert);
-to.addEventListener("change", convert);
+amount.oninput = calc;
+from.onchange = calc;
+to.onchange = calc;
 </script>
 
 </body>
