@@ -15,8 +15,8 @@ gtag('config', 'G-1BLNZ7G598');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calcul salaire net réel (heure, mois, année)</title>
-<meta name="description" content="Calculez votre salaire net réel à partir du brut. Conversion horaire, mensuelle et annuelle avec analyse et comparaison.">
+<title>Calcul salaire net réel</title>
+<meta name="description" content="Calculez votre salaire net réel à partir du brut avec analyse complète et comparaison au SMIC.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -46,7 +46,7 @@ Découvrez combien vous gagnez vraiment après charges
 </div>
 
 <!-- CARD -->
-<div class="bg-zinc-900/60 backdrop-blur p-6 rounded-2xl glow border border-zinc-800">
+<div class="bg-zinc-900/60 p-6 rounded-2xl glow border border-zinc-800">
 
 <select id="mode" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
 <option value="hour">Horaire (€ / h)</option>
@@ -57,7 +57,7 @@ Découvrez combien vous gagnez vraiment après charges
 <input id="input" type="number" placeholder="Ex: 2000 brut"
 class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 
-<!-- TABLEAU -->
+<!-- TABLE -->
 <table class="w-full text-base border border-zinc-800 rounded-xl overflow-hidden">
 
 <thead class="bg-zinc-800 text-zinc-400">
@@ -107,7 +107,7 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 <p class="text-zinc-400">📊 Taux de charges :
 <span id="rate" class="text-white font-semibold">0%</span></p>
 
-<p class="text-zinc-400">📈 Comparaison :
+<p class="text-zinc-400">📈 Comparaison SMIC :
 <span id="compare" class="text-white font-semibold">-</span></p>
 
 </div>
@@ -124,7 +124,6 @@ En France, il représente généralement entre 75% et 80% du salaire brut.
 <h2 class="text-white text-xl font-semibold">Conversion brut en net</h2>
 <p>
 Ce simulateur permet de convertir rapidement un salaire brut en net selon le format choisi : horaire, mensuel ou annuel.
-Il est utile pour comparer une offre d’emploi ou estimer ses revenus.
 </p>
 
 <h2 class="text-white text-xl font-semibold">Exemple concret</h2>
@@ -165,6 +164,7 @@ const compare=document.getElementById("compare");
 
 const H=151.67;
 const RATE=0.78;
+const SMIC=1443;
 
 function calc(){
 
@@ -201,22 +201,19 @@ function calc(){
  perDay.textContent=(netM/30).toFixed(0)+" €";
  rateTxt.textContent=((1-RATE)*100).toFixed(0)+" %";
 
- // 🔥 COMPARAISON
- const SMIC = 1 443;
+ // 🔥 COMPARAISON %
+ let diff=((netM-SMIC)/SMIC)*100;
 
- if(netM < SMIC){
-  compare.textContent = "En dessous du SMIC";
- }
- else if(netM < 2000){
-  compare.textContent = "Proche du salaire médian";
- }
- else{
-  compare.textContent = "Au-dessus de la moyenne";
+ if(diff>=0){
+  compare.textContent="+"+diff.toFixed(0)+"% au-dessus du SMIC";
+ }else{
+  compare.textContent=diff.toFixed(0)+"% en dessous du SMIC";
  }
 }
 
 i.oninput=calc;
 m.onchange=calc;
+calc(); // important
 </script>
 
 </body>
