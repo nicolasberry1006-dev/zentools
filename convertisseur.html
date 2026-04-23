@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convertisseur Euro Dollar</title>
+<title>Convertisseur de devises</title>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
@@ -20,16 +20,32 @@ body {
 
 <div class="w-full max-w-md text-center">
 
-<h1 class="text-3xl font-bold mb-6">Convertisseur € / $</h1>
+<h1 class="text-3xl font-bold mb-6">Convertisseur de devises</h1>
 
 <div class="bg-zinc-900/60 backdrop-blur p-6 rounded-2xl glow border border-zinc-800">
 
-<input id="euro" type="number" placeholder="Montant en €"
+<input id="amount" type="number" placeholder="Montant"
 class="w-full p-4 mb-4 bg-zinc-800 rounded-xl text-lg"/>
 
+<select id="from" class="w-full p-4 mb-3 bg-zinc-800 rounded-xl">
+<option value="EUR">Euro (€)</option>
+<option value="USD">Dollar ($)</option>
+<option value="GBP">Livre (£)</option>
+<option value="CHF">Franc suisse</option>
+<option value="JPY">Yen</option>
+</select>
+
+<select id="to" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
+<option value="USD">Dollar ($)</option>
+<option value="EUR">Euro (€)</option>
+<option value="GBP">Livre (£)</option>
+<option value="CHF">Franc suisse</option>
+<option value="JPY">Yen</option>
+</select>
+
 <div class="text-center mt-6">
-<p class="text-zinc-400">En dollars</p>
-<p id="usd" class="text-3xl font-bold mt-2">0 $</p>
+<p class="text-zinc-400">Résultat</p>
+<p id="result" class="text-3xl font-bold mt-2">0</p>
 </div>
 
 </div>
@@ -37,22 +53,37 @@ class="w-full p-4 mb-4 bg-zinc-800 rounded-xl text-lg"/>
 </div>
 
 <script>
-const euro = document.getElementById("euro");
-const usd = document.getElementById("usd");
+const rates = {
+  EUR: 1,
+  USD: 1.08,
+  GBP: 0.86,
+  CHF: 0.95,
+  JPY: 170
+};
 
-// taux simple (fixe pour MVP)
-const rate = 1.08;
+const amount = document.getElementById("amount");
+const from = document.getElementById("from");
+const to = document.getElementById("to");
+const result = document.getElementById("result");
 
-euro.addEventListener("input", () => {
-  const value = parseFloat(euro.value);
-
+function convert() {
+  const value = parseFloat(amount.value);
   if (!value) {
-    usd.textContent = "0 $";
+    result.textContent = "0";
     return;
   }
 
-  usd.textContent = (value * rate).toFixed(2) + " $";
-});
+  const fromRate = rates[from.value];
+  const toRate = rates[to.value];
+
+  const converted = (value / fromRate) * toRate;
+
+  result.textContent = converted.toFixed(2);
+}
+
+amount.addEventListener("input", convert);
+from.addEventListener("change", convert);
+to.addEventListener("change", convert);
 </script>
 
 </body>
