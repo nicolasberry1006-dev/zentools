@@ -3,46 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulateur Salaire Net Brut</title>
+<title>Simulateur salaire net brut</title>
+<meta name="description" content="Calculez votre salaire net mensuel, annuel et horaire.">
+
 <script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background: radial-gradient(circle at top, #111 0%, #000 100%); }
+.glow { box-shadow: 0 0 40px rgba(255,255,255,0.05); }
+</style>
 </head>
 
-<body class="bg-black text-white flex items-center justify-center min-h-screen">
+<body class="text-white flex items-center justify-center min-h-screen px-4">
 
-<div class="w-full max-w-md p-6">
+<div class="w-full max-w-md text-center">
 
-<h1 class="text-3xl font-bold text-center mb-6">
-Simulateur Salaire Net
-</h1>
+<h1 class="text-3xl font-bold mb-6">Salaire Net</h1>
 
-<div class="bg-zinc-900 p-6 rounded-2xl">
+<div class="bg-zinc-900/60 p-6 rounded-2xl glow border border-zinc-800">
 
-<label class="text-zinc-400">Salaire brut (€)</label>
-<input id="brut" type="number" placeholder="2000"
-class="w-full mt-2 p-4 bg-zinc-800 rounded-xl text-lg"/>
+<select id="mode" class="w-full p-4 mb-3 bg-zinc-800 rounded-xl">
+<option value="month">Mensuel</option>
+<option value="year">Annuel</option>
+<option value="hour">Horaire</option>
+</select>
 
-<div class="mt-6 text-center">
-<p class="text-zinc-400">Net estimé</p>
+<input id="brut" type="number" placeholder="Salaire brut"
+class="w-full p-4 bg-zinc-800 rounded-xl"/>
+
+<p class="mt-6 text-zinc-400">Net estimé</p>
 <p id="result" class="text-3xl font-bold mt-2">0 €</p>
-</div>
 
 </div>
+
+<a href="/" class="block mt-6 text-zinc-500 hover:text-white">← Retour</a>
+
 </div>
 
 <script>
-const brutInput = document.getElementById("brut");
-const result = document.getElementById("result");
+const brut=document.getElementById("brut");
+const mode=document.getElementById("mode");
+const result=document.getElementById("result");
 
-brutInput.addEventListener("input", () => {
-  const brut = parseFloat(brutInput.value);
-  if (!brut) {
-    result.textContent = "0 €";
-    return;
-  }
+function calc(){
+ let b=parseFloat(brut.value);
+ if(!b){result.textContent="0 €";return;}
+ let m = mode.value==="year"?b/12:mode.value==="hour"?b*151.67:b;
+ result.textContent=(m*0.78).toFixed(0)+" €";
+}
 
-  const net = brut * 0.78; // approximation FR
-  result.textContent = net.toFixed(0) + " €";
-});
+brut.addEventListener("input",calc);
+mode.addEventListener("change",calc);
 </script>
 
 </body>
