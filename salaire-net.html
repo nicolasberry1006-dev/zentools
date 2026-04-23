@@ -15,65 +15,79 @@ gtag('config', 'G-1BLNZ7G598');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calcul salaire net brut (heure, mois, année) - gratuit</title>
-<meta name="description" content="Calculez votre salaire net à partir du brut en ligne. Conversion horaire, mensuelle et annuelle simple et rapide.">
+<title>Calcul salaire net brut (heure, mois, année)</title>
+<meta name="description" content="Calculez votre salaire net à partir du brut facilement. Conversion horaire, mensuelle et annuelle.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body { background: radial-gradient(circle at top, #111 0%, #000 100%); }
-.glow { box-shadow: 0 0 40px rgba(255,255,255,0.05); }
+body {
+  background: radial-gradient(circle at top, #111 0%, #000 100%);
+}
+.glow {
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+}
 </style>
 
 </head>
 
-<body class="text-white flex justify-center px-4">
+<body class="text-white flex flex-col min-h-screen">
 
-<div class="w-full max-w-2xl text-center py-10">
+<!-- CONTENU -->
+<main class="flex-grow flex items-center justify-center px-4">
 
-<h1 class="text-4xl font-bold mb-2">Calcul salaire net</h1>
-<p class="text-zinc-400 mb-8">Convertissez votre salaire brut en net instantanément</p>
+<div class="w-full max-w-4xl">
 
-<!-- OUTIL -->
-<div class="bg-zinc-900/60 p-6 rounded-2xl glow border border-zinc-800">
+<!-- HEADER -->
+<div class="text-center mb-12">
+<h1 class="text-5xl font-bold mb-3">Calcul salaire net</h1>
+<p class="text-zinc-400 text-lg">
+Convertissez votre salaire brut en net instantanément
+</p>
+</div>
 
-<select id="mode" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
+<!-- CARD -->
+<div class="bg-zinc-900/60 backdrop-blur p-10 rounded-2xl glow border border-zinc-800">
+
+<!-- INPUTS -->
+<select id="mode" class="w-full p-5 mb-5 bg-zinc-800 rounded-xl text-xl">
 <option value="hour">Horaire (€ / h)</option>
 <option value="month">Mensuel (€ / mois)</option>
 <option value="year">Annuel (€ / an)</option>
 </select>
 
 <input id="input" type="number" placeholder="Ex: 2000"
-class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-lg"/>
+class="w-full p-5 mb-8 bg-zinc-800 rounded-xl text-2xl font-semibold"/>
 
-<table class="w-full text-sm border border-zinc-800 rounded-xl overflow-hidden">
+<!-- TABLEAU -->
+<table class="w-full text-lg border border-zinc-800 rounded-xl overflow-hidden">
 
 <thead class="bg-zinc-800 text-zinc-400">
 <tr>
-<th class="p-3 text-left">Type</th>
-<th class="p-3 text-right">Brut</th>
-<th class="p-3 text-right">Net</th>
+<th class="p-5 text-left">Type</th>
+<th class="p-5 text-right">Brut</th>
+<th class="p-5 text-right">Net</th>
 </tr>
 </thead>
 
 <tbody>
 
 <tr class="border-t border-zinc-800">
-<td class="p-3">Horaire</td>
-<td class="p-3 text-right" id="hB">0 €</td>
-<td class="p-3 text-right text-green-400" id="hN">0 €</td>
+<td class="p-5">Horaire</td>
+<td class="p-5 text-right" id="hB">0 €</td>
+<td class="p-5 text-right text-green-400" id="hN">0 €</td>
+</tr>
+
+<tr class="border-t border-zinc-800 bg-zinc-900/40">
+<td class="p-5 font-semibold">Mensuel</td>
+<td class="p-5 text-right font-semibold text-xl" id="mB">0 €</td>
+<td class="p-5 text-right text-green-400 font-bold text-2xl" id="mN">0 €</td>
 </tr>
 
 <tr class="border-t border-zinc-800">
-<td class="p-3">Mensuel</td>
-<td class="p-3 text-right" id="mB">0 €</td>
-<td class="p-3 text-right text-green-400 font-bold text-lg" id="mN">0 €</td>
-</tr>
-
-<tr class="border-t border-zinc-800">
-<td class="p-3">Annuel</td>
-<td class="p-3 text-right" id="yB">0 €</td>
-<td class="p-3 text-right text-green-400" id="yN">0 €</td>
+<td class="p-5">Annuel</td>
+<td class="p-5 text-right" id="yB">0 €</td>
+<td class="p-5 text-right text-green-400" id="yN">0 €</td>
 </tr>
 
 </tbody>
@@ -82,30 +96,42 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-lg"/>
 </div>
 
 <!-- SEO CONTENT -->
-<div class="mt-10 text-left text-zinc-400 space-y-5">
+<div class="mt-16 text-zinc-400 space-y-6 text-base leading-relaxed max-w-3xl mx-auto">
 
-<h2 class="text-white text-xl font-semibold">Comment calculer son salaire net ?</h2>
+<h2 class="text-white text-2xl font-semibold">Comment calculer son salaire net ?</h2>
 <p>
 Le salaire net correspond au montant réellement perçu après déduction des charges sociales.
-En France, le salaire net représente environ 75% à 80% du salaire brut.
+En France, il représente environ 75% à 80% du salaire brut.
 </p>
 
-<h2 class="text-white text-xl font-semibold">Convertir brut en net facilement</h2>
+<h2 class="text-white text-2xl font-semibold">Convertir brut en net facilement</h2>
 <p>
-Ce simulateur permet de convertir un salaire brut en net en fonction du format choisi : horaire, mensuel ou annuel.
+Ce simulateur permet de convertir instantanément un salaire brut en net selon le format choisi : horaire, mensuel ou annuel.
 Il est utile pour comparer une offre d’emploi ou estimer ses revenus.
 </p>
 
-<h2 class="text-white text-xl font-semibold">Exemple de calcul</h2>
+<h2 class="text-white text-2xl font-semibold">Exemple</h2>
 <p>
 Un salaire brut de 2000 € correspond environ à 1560 € net par mois selon les charges moyennes.
 </p>
 
 </div>
 
-<a href="/" class="block mt-10 text-zinc-500 hover:text-white">← Retour</a>
+<!-- RETOUR -->
+<div class="text-center mt-12">
+<a href="/" class="text-zinc-500 hover:text-white transition text-lg">
+← Retour
+</a>
+</div>
 
 </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-900">
+ZenTools © 2026 • Outils simples et rapides
+</footer>
 
 <script>
 const i=document.getElementById("input");
@@ -134,7 +160,7 @@ function calc(){
 
  if(m.value==="hour"){hb=v;mb=v*H;yb=mb*12;}
  if(m.value==="month"){mb=v;hb=v/H;yb=v*12;}
- if(m.value==="year"){yb=v;mb=v/12;hb=mb/H;}
+ if(m.value==="year"){yb=v;mb=yb/12;hb=mb/H;}
 
  hB.textContent=hb.toFixed(2)+" €";
  mB.textContent=mb.toFixed(0)+" €";
