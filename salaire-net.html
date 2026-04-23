@@ -15,8 +15,8 @@ gtag('config', 'G-1BLNZ7G598');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calcul salaire net brut (heure, mois, année)</title>
-<meta name="description" content="Calculez votre salaire net à partir du brut facilement. Conversion horaire, mensuelle et annuelle.">
+<title>Calcul salaire net réel (heure, mois, année)</title>
+<meta name="description" content="Calculez votre salaire net réel à partir du brut. Analyse complète : charges, salaire par jour et par heure.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -33,23 +33,21 @@ body {
 
 <body class="text-white flex flex-col min-h-screen">
 
-<!-- CONTENU -->
 <main class="flex-grow flex items-center justify-center px-4">
 
 <div class="w-full max-w-2xl">
 
 <!-- HEADER -->
 <div class="text-center mb-12">
-<h1 class="text-5xl font-bold mb-3">Calcul salaire net</h1>
+<h1 class="text-5xl font-bold mb-3">Calcul salaire net réel</h1>
 <p class="text-zinc-400 text-lg">
-Convertissez votre salaire brut en net instantanément
+Découvrez combien vous gagnez vraiment après charges
 </p>
 </div>
 
 <!-- CARD -->
-<div class="bg-zinc-900/60 backdrop-blur p-10 rounded-2xl glow border border-zinc-800">
+<div class="bg-zinc-900/60 backdrop-blur p-8 rounded-2xl glow border border-zinc-800">
 
-<!-- INPUTS -->
 <select id="mode" class="w-full p-5 mb-5 bg-zinc-800 rounded-xl text-xl">
 <option value="hour">Horaire (€ / h)</option>
 <option value="month">Mensuel (€ / mois)</option>
@@ -59,7 +57,6 @@ Convertissez votre salaire brut en net instantanément
 <input id="input" type="number" placeholder="Ex: 2000"
 class="w-full p-5 mb-8 bg-zinc-800 rounded-xl text-2xl font-semibold"/>
 
-<!-- TABLEAU -->
 <table class="w-full text-lg border border-zinc-800 rounded-xl overflow-hidden">
 
 <thead class="bg-zinc-800 text-zinc-400">
@@ -95,40 +92,51 @@ class="w-full p-5 mb-8 bg-zinc-800 rounded-xl text-2xl font-semibold"/>
 
 </div>
 
-<!-- SEO CONTENT -->
-<div class="mt-16 text-zinc-400 space-y-6 text-base leading-relaxed max-w-3xl mx-auto">
+<!-- ANALYSE -->
+<div class="mt-10 bg-zinc-900/60 backdrop-blur p-6 rounded-2xl border border-zinc-800 text-left">
 
-<h2 class="text-white text-2xl font-semibold">Comment calculer son salaire net ?</h2>
+<h3 class="text-white text-xl font-bold mb-4">Analyse de votre salaire</h3>
+
+<div class="space-y-2 text-zinc-400">
+
+<p>💸 Charges estimées : <span id="charges" class="text-white font-semibold">0 €</span></p>
+<p>📅 Salaire net / jour : <span id="perDay" class="text-white font-semibold">0 €</span></p>
+<p>⏱ Salaire net / heure : <span id="realHour" class="text-white font-semibold">0 €</span></p>
+<p>📊 Taux de prélèvement : <span id="rate" class="text-white font-semibold">0%</span></p>
+
+</div>
+
+</div>
+
+<!-- SEO -->
+<div class="mt-16 border-t border-zinc-800 pt-10 text-zinc-400 space-y-6 text-base leading-relaxed">
+
+<h2 class="text-white text-2xl font-bold">Comment calculer son salaire net ?</h2>
 <p>
 Le salaire net correspond au montant réellement perçu après déduction des charges sociales.
 En France, il représente environ 75% à 80% du salaire brut.
 </p>
 
-<h2 class="text-white text-2xl font-semibold">Convertir brut en net facilement</h2>
+<h2 class="text-white text-2xl font-bold">Convertir brut en net facilement</h2>
 <p>
 Ce simulateur permet de convertir instantanément un salaire brut en net selon le format choisi : horaire, mensuel ou annuel.
-Il est utile pour comparer une offre d’emploi ou estimer ses revenus.
 </p>
 
-<h2 class="text-white text-2xl font-semibold">Exemple</h2>
+<h2 class="text-white text-2xl font-bold">Exemple</h2>
 <p>
 Un salaire brut de 2000 € correspond environ à 1560 € net par mois selon les charges moyennes.
 </p>
 
 </div>
 
-<!-- RETOUR -->
-<div class="text-center mt-12">
-<a href="/" class="text-zinc-500 hover:text-white transition text-lg">
-← Retour
-</a>
+<div class="text-center mt-10">
+<a href="/" class="text-zinc-500 hover:text-white">← Retour</a>
 </div>
 
 </div>
 
 </main>
 
-<!-- FOOTER -->
 <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-900">
 ZenTools © 2026 • Outils simples et rapides
 </footer>
@@ -145,14 +153,23 @@ const hN=document.getElementById("hN");
 const mN=document.getElementById("mN");
 const yN=document.getElementById("yN");
 
+const charges=document.getElementById("charges");
+const perDay=document.getElementById("perDay");
+const realHour=document.getElementById("realHour");
+const rateTxt=document.getElementById("rate");
+
 const H=151.67;
 const RATE=0.78;
 
 function calc(){
+
  let v=parseFloat(i.value);
+
  if(!v){
   hB.textContent=mB.textContent=yB.textContent="0 €";
   hN.textContent=mN.textContent=yN.textContent="0 €";
+  charges.textContent=perDay.textContent=realHour.textContent="0 €";
+  rateTxt.textContent="0%";
   return;
  }
 
@@ -162,13 +179,22 @@ function calc(){
  if(m.value==="month"){mb=v;hb=v/H;yb=v*12;}
  if(m.value==="year"){yb=v;mb=yb/12;hb=mb/H;}
 
+ let netH=hb*RATE;
+ let netM=mb*RATE;
+ let netY=yb*RATE;
+
  hB.textContent=hb.toFixed(2)+" €";
  mB.textContent=mb.toFixed(0)+" €";
  yB.textContent=yb.toFixed(0)+" €";
 
- hN.textContent=(hb*RATE).toFixed(2)+" €";
- mN.textContent=(mb*RATE).toFixed(0)+" €";
- yN.textContent=(yb*RATE).toFixed(0)+" €";
+ hN.textContent=netH.toFixed(2)+" €";
+ mN.textContent=netM.toFixed(0)+" €";
+ yN.textContent=netY.toFixed(0)+" €";
+
+ charges.textContent=(mb-netM).toFixed(0)+" €";
+ perDay.textContent=(netM/30).toFixed(0)+" €";
+ realHour.textContent=netH.toFixed(2)+" €";
+ rateTxt.textContent=((1-RATE)*100).toFixed(0)+" %";
 }
 
 i.oninput=calc;
