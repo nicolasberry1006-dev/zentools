@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1BLNZ7G598"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-1BLNZ7G598');
+</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulateur salaire brut net (heure, mois, année)</title>
-<meta name="description" content="Convertissez votre salaire brut en net et entre formats horaire, mensuel et annuel.">
+
+<title>Calcul salaire net brut (heure, mois, année) - gratuit</title>
+<meta name="description" content="Calculez votre salaire net à partir du brut en ligne. Conversion horaire, mensuelle et annuelle simple et rapide.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -12,14 +24,17 @@
 body { background: radial-gradient(circle at top, #111 0%, #000 100%); }
 .glow { box-shadow: 0 0 40px rgba(255,255,255,0.05); }
 </style>
+
 </head>
 
-<body class="text-white flex items-center justify-center min-h-screen px-4">
+<body class="text-white flex justify-center px-4">
 
-<div class="w-full max-w-md text-center">
+<div class="w-full max-w-2xl text-center py-10">
 
-<h1 class="text-3xl font-bold mb-6">Salaire Brut → Net</h1>
+<h1 class="text-4xl font-bold mb-2">Calcul salaire net</h1>
+<p class="text-zinc-400 mb-8">Convertissez votre salaire brut en net instantanément</p>
 
+<!-- OUTIL -->
 <div class="bg-zinc-900/60 p-6 rounded-2xl glow border border-zinc-800">
 
 <select id="mode" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
@@ -28,13 +43,10 @@ body { background: radial-gradient(circle at top, #111 0%, #000 100%); }
 <option value="year">Annuel (€ / an)</option>
 </select>
 
-<input id="input" type="number" placeholder="Ex: 14"
+<input id="input" type="number" placeholder="Ex: 2000"
 class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-lg"/>
 
-<!-- TABLEAU -->
-<div class="overflow-hidden rounded-xl border border-zinc-800">
-
-<table class="w-full text-sm">
+<table class="w-full text-sm border border-zinc-800 rounded-xl overflow-hidden">
 
 <thead class="bg-zinc-800 text-zinc-400">
 <tr>
@@ -48,20 +60,20 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-lg"/>
 
 <tr class="border-t border-zinc-800">
 <td class="p-3">Horaire</td>
-<td class="p-3 text-right" id="hourlyBrut">0 €</td>
-<td class="p-3 text-right text-green-400" id="hourlyNet">0 €</td>
+<td class="p-3 text-right" id="hB">0 €</td>
+<td class="p-3 text-right text-green-400" id="hN">0 €</td>
 </tr>
 
 <tr class="border-t border-zinc-800">
 <td class="p-3">Mensuel</td>
-<td class="p-3 text-right" id="monthlyBrut">0 €</td>
-<td class="p-3 text-right text-green-400" id="monthlyNet">0 €</td>
+<td class="p-3 text-right" id="mB">0 €</td>
+<td class="p-3 text-right text-green-400 font-bold text-lg" id="mN">0 €</td>
 </tr>
 
 <tr class="border-t border-zinc-800">
 <td class="p-3">Annuel</td>
-<td class="p-3 text-right" id="yearlyBrut">0 €</td>
-<td class="p-3 text-right text-green-400" id="yearlyNet">0 €</td>
+<td class="p-3 text-right" id="yB">0 €</td>
+<td class="p-3 text-right text-green-400" id="yN">0 €</td>
 </tr>
 
 </tbody>
@@ -69,72 +81,72 @@ class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-lg"/>
 
 </div>
 
+<!-- SEO CONTENT -->
+<div class="mt-10 text-left text-zinc-400 space-y-5">
+
+<h2 class="text-white text-xl font-semibold">Comment calculer son salaire net ?</h2>
+<p>
+Le salaire net correspond au montant réellement perçu après déduction des charges sociales.
+En France, le salaire net représente environ 75% à 80% du salaire brut.
+</p>
+
+<h2 class="text-white text-xl font-semibold">Convertir brut en net facilement</h2>
+<p>
+Ce simulateur permet de convertir un salaire brut en net en fonction du format choisi : horaire, mensuel ou annuel.
+Il est utile pour comparer une offre d’emploi ou estimer ses revenus.
+</p>
+
+<h2 class="text-white text-xl font-semibold">Exemple de calcul</h2>
+<p>
+Un salaire brut de 2000 € correspond environ à 1560 € net par mois selon les charges moyennes.
+</p>
+
 </div>
 
-<a href="/" class="block mt-6 text-zinc-500 hover:text-white">← Retour</a>
+<a href="/" class="block mt-10 text-zinc-500 hover:text-white">← Retour</a>
 
 </div>
 
 <script>
-const input = document.getElementById("input");
-const mode = document.getElementById("mode");
+const i=document.getElementById("input");
+const m=document.getElementById("mode");
 
-const hourlyBrut = document.getElementById("hourlyBrut");
-const monthlyBrut = document.getElementById("monthlyBrut");
-const yearlyBrut = document.getElementById("yearlyBrut");
+const hB=document.getElementById("hB");
+const mB=document.getElementById("mB");
+const yB=document.getElementById("yB");
 
-const hourlyNet = document.getElementById("hourlyNet");
-const monthlyNet = document.getElementById("monthlyNet");
-const yearlyNet = document.getElementById("yearlyNet");
+const hN=document.getElementById("hN");
+const mN=document.getElementById("mN");
+const yN=document.getElementById("yN");
 
-const HOURS_MONTH = 151.67;
-const MONTHS_YEAR = 12;
-const NET_RATE = 0.78;
+const H=151.67;
+const RATE=0.78;
 
-function calc() {
-  let value = parseFloat(input.value);
+function calc(){
+ let v=parseFloat(i.value);
+ if(!v){
+  hB.textContent=mB.textContent=yB.textContent="0 €";
+  hN.textContent=mN.textContent=yN.textContent="0 €";
+  return;
+ }
 
-  if (!value) {
-    hourlyBrut.textContent = monthlyBrut.textContent = yearlyBrut.textContent = "0 €";
-    hourlyNet.textContent = monthlyNet.textContent = yearlyNet.textContent = "0 €";
-    return;
-  }
+ let hb,mb,yb;
 
-  let brutHourly, brutMonthly, brutYearly;
+ if(m.value==="hour"){hb=v;mb=v*H;yb=mb*12;}
+ if(m.value==="month"){mb=v;hb=v/H;yb=v*12;}
+ if(m.value==="year"){yb=v;mb=v/12;hb=mb/H;}
 
-  if (mode.value === "hour") {
-    brutHourly = value;
-    brutMonthly = value * HOURS_MONTH;
-    brutYearly = brutMonthly * MONTHS_YEAR;
-  }
+ hB.textContent=hb.toFixed(2)+" €";
+ mB.textContent=mb.toFixed(0)+" €";
+ yB.textContent=yb.toFixed(0)+" €";
 
-  if (mode.value === "month") {
-    brutMonthly = value;
-    brutHourly = value / HOURS_MONTH;
-    brutYearly = value * MONTHS_YEAR;
-  }
-
-  if (mode.value === "year") {
-    brutYearly = value;
-    brutMonthly = value / MONTHS_YEAR;
-    brutHourly = brutMonthly / HOURS_MONTH;
-  }
-
-  let netHourly = brutHourly * NET_RATE;
-  let netMonthly = brutMonthly * NET_RATE;
-  let netYearly = brutYearly * NET_RATE;
-
-  hourlyBrut.textContent = brutHourly.toFixed(2) + " €";
-  monthlyBrut.textContent = brutMonthly.toFixed(0) + " €";
-  yearlyBrut.textContent = brutYearly.toFixed(0) + " €";
-
-  hourlyNet.textContent = netHourly.toFixed(2) + " €";
-  monthlyNet.textContent = netMonthly.toFixed(0) + " €";
-  yearlyNet.textContent = netYearly.toFixed(0) + " €";
+ hN.textContent=(hb*RATE).toFixed(2)+" €";
+ mN.textContent=(mb*RATE).toFixed(0)+" €";
+ yN.textContent=(yb*RATE).toFixed(0)+" €";
 }
 
-input.addEventListener("input", calc);
-mode.addEventListener("change", calc);
+i.oninput=calc;
+m.onchange=calc;
 </script>
 
 </body>
