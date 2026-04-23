@@ -15,8 +15,8 @@ gtag('config', 'G-1BLNZ7G598');
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calcul salaire net réel (heure, mois, année)</title>
-<meta name="description" content="Calculez votre salaire net réel à partir du brut. Analyse complète : charges, salaire par jour et par heure.">
+<title>Calcul salaire net réel</title>
+<meta name="description" content="Calculez votre salaire net réel à partir du brut en quelques secondes.">
 
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -38,53 +38,47 @@ body {
 <div class="w-full max-w-2xl">
 
 <!-- HEADER -->
-<div class="text-center mb-12">
-<h1 class="text-5xl font-bold mb-3">Calcul salaire net réel</h1>
-<p class="text-zinc-400 text-lg">
-Découvrez combien vous gagnez vraiment après charges
+<div class="text-center mb-10">
+<h1 class="text-4xl font-bold mb-2">Calcul salaire net réel</h1>
+<p class="text-zinc-400">
+Découvrez ce que vous gagnez vraiment
 </p>
 </div>
 
 <!-- CARD -->
-<div class="bg-zinc-900/60 backdrop-blur p-8 rounded-2xl glow border border-zinc-800">
+<div class="bg-zinc-900/60 backdrop-blur p-6 rounded-2xl glow border border-zinc-800">
 
-<select id="mode" class="w-full p-5 mb-5 bg-zinc-800 rounded-xl text-xl">
-<option value="hour">Horaire (€ / h)</option>
+<select id="mode" class="w-full p-4 mb-4 bg-zinc-800 rounded-xl">
 <option value="month">Mensuel (€ / mois)</option>
 <option value="year">Annuel (€ / an)</option>
 </select>
 
 <input id="input" type="number" placeholder="Ex: 2000"
-class="w-full p-5 mb-8 bg-zinc-800 rounded-xl text-2xl font-semibold"/>
+class="w-full p-4 mb-6 bg-zinc-800 rounded-xl text-xl font-semibold"/>
 
-<table class="w-full text-lg border border-zinc-800 rounded-xl overflow-hidden">
+<!-- TABLE -->
+<table class="w-full text-base border border-zinc-800 rounded-xl overflow-hidden">
 
 <thead class="bg-zinc-800 text-zinc-400">
 <tr>
-<th class="p-5 text-left">Type</th>
-<th class="p-5 text-right">Brut</th>
-<th class="p-5 text-right">Net</th>
+<th class="p-4 text-left">Type</th>
+<th class="p-4 text-right">Brut</th>
+<th class="p-4 text-right">Net</th>
 </tr>
 </thead>
 
 <tbody>
 
-<tr class="border-t border-zinc-800">
-<td class="p-5">Horaire</td>
-<td class="p-5 text-right" id="hB">0 €</td>
-<td class="p-5 text-right text-green-400" id="hN">0 €</td>
-</tr>
-
 <tr class="border-t border-zinc-800 bg-zinc-900/40">
-<td class="p-5 font-semibold">Mensuel</td>
-<td class="p-5 text-right font-semibold text-xl" id="mB">0 €</td>
-<td class="p-5 text-right text-green-400 font-bold text-2xl" id="mN">0 €</td>
+<td class="p-4 font-semibold">Mensuel</td>
+<td class="p-4 text-right font-semibold text-lg" id="mB">0 €</td>
+<td class="p-4 text-right text-green-400 font-bold text-xl" id="mN">0 €</td>
 </tr>
 
 <tr class="border-t border-zinc-800">
-<td class="p-5">Annuel</td>
-<td class="p-5 text-right" id="yB">0 €</td>
-<td class="p-5 text-right text-green-400" id="yN">0 €</td>
+<td class="p-4 text-zinc-400">Annuel</td>
+<td class="p-4 text-right" id="yB">0 €</td>
+<td class="p-4 text-right text-green-400" id="yN">0 €</td>
 </tr>
 
 </tbody>
@@ -93,43 +87,33 @@ class="w-full p-5 mb-8 bg-zinc-800 rounded-xl text-2xl font-semibold"/>
 </div>
 
 <!-- ANALYSE -->
-<div class="mt-10 bg-zinc-900/60 backdrop-blur p-6 rounded-2xl border border-zinc-800 text-left">
+<div class="mt-8 bg-zinc-900/60 p-5 rounded-xl border border-zinc-800 text-left">
 
-<h3 class="text-white text-xl font-bold mb-4">Analyse de votre salaire</h3>
+<h3 class="text-white font-semibold mb-3">Analyse</h3>
 
-<div class="space-y-2 text-zinc-400">
+<p class="text-zinc-400">💸 Charges salariales :
+<span id="charges" class="text-white font-semibold">0 €</span></p>
 
-<p>💸 Charges estimées : <span id="charges" class="text-white font-semibold">0 €</span></p>
-<p>📅 Salaire net / jour : <span id="perDay" class="text-white font-semibold">0 €</span></p>
-<p>⏱ Salaire net / heure : <span id="realHour" class="text-white font-semibold">0 €</span></p>
-<p>📊 Taux de prélèvement : <span id="rate" class="text-white font-semibold">0%</span></p>
+<p class="text-zinc-400">📅 Net / jour :
+<span id="perDay" class="text-white font-semibold">0 €</span></p>
 
-</div>
+<p class="text-zinc-400">📊 Charges :
+<span id="rate" class="text-white font-semibold">0%</span></p>
 
 </div>
 
 <!-- SEO -->
-<div class="mt-16 border-t border-zinc-800 pt-10 text-zinc-400 space-y-6 text-base leading-relaxed">
+<div class="mt-12 border-t border-zinc-800 pt-6 text-zinc-400 space-y-4 text-sm">
 
-<h2 class="text-white text-2xl font-bold">Comment calculer son salaire net ?</h2>
+<h2 class="text-white font-semibold">Comment calculer son salaire net ?</h2>
 <p>
 Le salaire net correspond au montant réellement perçu après déduction des charges sociales.
 En France, il représente environ 75% à 80% du salaire brut.
 </p>
 
-<h2 class="text-white text-2xl font-bold">Convertir brut en net facilement</h2>
-<p>
-Ce simulateur permet de convertir instantanément un salaire brut en net selon le format choisi : horaire, mensuel ou annuel.
-</p>
-
-<h2 class="text-white text-2xl font-bold">Exemple</h2>
-<p>
-Un salaire brut de 2000 € correspond environ à 1560 € net par mois selon les charges moyennes.
-</p>
-
 </div>
 
-<div class="text-center mt-10">
+<div class="text-center mt-8">
 <a href="/" class="text-zinc-500 hover:text-white">← Retour</a>
 </div>
 
@@ -138,27 +122,23 @@ Un salaire brut de 2000 € correspond environ à 1560 € net par mois selon le
 </main>
 
 <footer class="text-center text-zinc-500 text-sm py-6 border-t border-zinc-900">
-ZenTools © 2026 • Outils simples et rapides
+ZenTools © 2026
 </footer>
 
 <script>
 const i=document.getElementById("input");
 const m=document.getElementById("mode");
 
-const hB=document.getElementById("hB");
 const mB=document.getElementById("mB");
 const yB=document.getElementById("yB");
 
-const hN=document.getElementById("hN");
 const mN=document.getElementById("mN");
 const yN=document.getElementById("yN");
 
 const charges=document.getElementById("charges");
 const perDay=document.getElementById("perDay");
-const realHour=document.getElementById("realHour");
 const rateTxt=document.getElementById("rate");
 
-const H=151.67;
 const RATE=0.78;
 
 function calc(){
@@ -166,34 +146,29 @@ function calc(){
  let v=parseFloat(i.value);
 
  if(!v){
-  hB.textContent=mB.textContent=yB.textContent="0 €";
-  hN.textContent=mN.textContent=yN.textContent="0 €";
-  charges.textContent=perDay.textContent=realHour.textContent="0 €";
+  mB.textContent=yB.textContent="0 €";
+  mN.textContent=yN.textContent="0 €";
+  charges.textContent=perDay.textContent="0 €";
   rateTxt.textContent="0%";
   return;
  }
 
- let hb,mb,yb;
+ let mb,yb;
 
- if(m.value==="hour"){hb=v;mb=v*H;yb=mb*12;}
- if(m.value==="month"){mb=v;hb=v/H;yb=v*12;}
- if(m.value==="year"){yb=v;mb=yb/12;hb=mb/H;}
+ if(m.value==="month"){mb=v;yb=v*12;}
+ if(m.value==="year"){yb=v;mb=v/12;}
 
- let netH=hb*RATE;
  let netM=mb*RATE;
  let netY=yb*RATE;
 
- hB.textContent=hb.toFixed(2)+" €";
  mB.textContent=mb.toFixed(0)+" €";
  yB.textContent=yb.toFixed(0)+" €";
 
- hN.textContent=netH.toFixed(2)+" €";
  mN.textContent=netM.toFixed(0)+" €";
  yN.textContent=netY.toFixed(0)+" €";
 
  charges.textContent=(mb-netM).toFixed(0)+" €";
  perDay.textContent=(netM/30).toFixed(0)+" €";
- realHour.textContent=netH.toFixed(2)+" €";
  rateTxt.textContent=((1-RATE)*100).toFixed(0)+" %";
 }
 
