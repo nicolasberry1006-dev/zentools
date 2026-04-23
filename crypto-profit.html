@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur Profit Crypto</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+
+<div class="w-full max-w-md p-6">
+
+<h1 class="text-3xl font-bold text-center mb-6">
+Profit Crypto
+</h1>
+
+<div class="bg-zinc-900 p-6 rounded-2xl">
+
+<input id="buy" type="number" placeholder="Prix d'achat (€)"
+class="w-full p-4 mb-3 bg-zinc-800 rounded-xl"/>
+
+<input id="sell" type="number" placeholder="Prix actuel (€)"
+class="w-full p-4 mb-3 bg-zinc-800 rounded-xl"/>
+
+<input id="amount" type="number" placeholder="Montant investi (€)"
+class="w-full p-4 bg-zinc-800 rounded-xl"/>
+
+<div class="mt-6 text-center">
+<p class="text-zinc-400">Résultat</p>
+<p id="result" class="text-3xl font-bold mt-2">0 €</p>
+</div>
+
+</div>
+</div>
+
+<script>
+const buy = document.getElementById("buy");
+const sell = document.getElementById("sell");
+const amount = document.getElementById("amount");
+const result = document.getElementById("result");
+
+function calculate() {
+  const b = parseFloat(buy.value);
+  const s = parseFloat(sell.value);
+  const a = parseFloat(amount.value);
+
+  if (!b || !s || !a) {
+    result.textContent = "0 €";
+    return;
+  }
+
+  const profit = ((s - b) / b) * a;
+
+  result.textContent = profit.toFixed(2) + " €";
+  result.style.color = profit >= 0 ? "lime" : "red";
+}
+
+buy.addEventListener("input", calculate);
+sell.addEventListener("input", calculate);
+amount.addEventListener("input", calculate);
+</script>
+
+</body>
+</html>
