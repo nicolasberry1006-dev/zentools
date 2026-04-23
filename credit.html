@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculateur Crédit Mensualité</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: radial-gradient(circle at top, #111 0%, #000 100%);
+}
+.glow {
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+}
+</style>
+</head>
+
+<body class="text-white flex items-center justify-center min-h-screen px-4">
+
+<div class="w-full max-w-md text-center">
+
+<h1 class="text-3xl font-bold mb-6">Calculateur de Crédit</h1>
+
+<div class="bg-zinc-900/60 backdrop-blur p-6 rounded-2xl glow border border-zinc-800">
+
+<input id="amount" type="number" placeholder="Montant (€)"
+class="w-full p-4 mb-3 bg-zinc-800 rounded-xl text-lg"/>
+
+<input id="rate" type="number" placeholder="Taux (%) ex: 2"
+class="w-full p-4 mb-3 bg-zinc-800 rounded-xl text-lg"/>
+
+<input id="years" type="number" placeholder="Durée (années)"
+class="w-full p-4 mb-4 bg-zinc-800 rounded-xl text-lg"/>
+
+<div class="mt-6 text-center">
+<p class="text-zinc-400">Mensualité</p>
+<p id="result" class="text-3xl font-bold mt-2">0 €</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+const amount = document.getElementById("amount");
+const rate = document.getElementById("rate");
+const years = document.getElementById("years");
+const result = document.getElementById("result");
+
+function calc() {
+  const capital = parseFloat(amount.value);
+  const taux = parseFloat(rate.value) / 100 / 12;
+  const duree = parseFloat(years.value) * 12;
+
+  if (!capital || !taux || !duree) {
+    result.textContent = "0 €";
+    return;
+  }
+
+  const mensualite = capital * taux / (1 - Math.pow(1 + taux, -duree));
+
+  result.textContent = mensualite.toFixed(0) + " €";
+}
+
+amount.addEventListener("input", calc);
+rate.addEventListener("input", calc);
+years.addEventListener("input", calc);
+</script>
+
+</body>
+</html>

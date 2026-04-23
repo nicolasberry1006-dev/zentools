@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Convertisseur Euro Dollar</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: radial-gradient(circle at top, #111 0%, #000 100%);
+}
+.glow {
+  box-shadow: 0 0 40px rgba(255,255,255,0.05);
+}
+</style>
+</head>
+
+<body class="text-white flex items-center justify-center min-h-screen px-4">
+
+<div class="w-full max-w-md text-center">
+
+<h1 class="text-3xl font-bold mb-6">Convertisseur € / $</h1>
+
+<div class="bg-zinc-900/60 backdrop-blur p-6 rounded-2xl glow border border-zinc-800">
+
+<input id="euro" type="number" placeholder="Montant en €"
+class="w-full p-4 mb-4 bg-zinc-800 rounded-xl text-lg"/>
+
+<div class="text-center mt-6">
+<p class="text-zinc-400">En dollars</p>
+<p id="usd" class="text-3xl font-bold mt-2">0 $</p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+const euro = document.getElementById("euro");
+const usd = document.getElementById("usd");
+
+// taux simple (fixe pour MVP)
+const rate = 1.08;
+
+euro.addEventListener("input", () => {
+  const value = parseFloat(euro.value);
+
+  if (!value) {
+    usd.textContent = "0 $";
+    return;
+  }
+
+  usd.textContent = (value * rate).toFixed(2) + " $";
+});
+</script>
+
+</body>
+</html>
